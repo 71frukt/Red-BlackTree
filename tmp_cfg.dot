@@ -1,0 +1,41 @@
+digraph G{                                           
+   bgcolor = "darkslategray"
+   edge [color = "aqua"]; 
+node_0x603000000130[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "1"]
+node_0x6030000001c0[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "2"]
+node_0x6030000001f0[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "3"]
+node_0x603000000220[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "5"]
+node_0x603000000160[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "6"]
+node_0x603000000190[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "7"]
+node_0x6030000000d0[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "15"]
+node_0x603000000100[  shape     = "ellipse", style     = filled, fillcolor = "skyblue", color     = "black", label     = "16"]
+node_0x6030000000a0[  shape     = "ellipse", style     = filled, fillcolor = "aquamarine", color     = "black", label     = "17"]
+node_0x180c0000004c[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x603000000130->node_0x180c0000004c
+node_0x603000000130->node_0x603000000160
+node_0x180c00000070[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x6030000001c0->node_0x180c00000070
+node_0x6030000001c0->node_0x6030000001f0
+node_0x180c0000007c[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x6030000001f0->node_0x180c0000007c
+node_0x6030000001f0->node_0x603000000220
+node_0x180c00000088[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x603000000220->node_0x180c00000088
+node_0xc0600000044[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x603000000220->node_0xc0600000044
+node_0x603000000160->node_0x6030000001c0
+node_0x603000000160->node_0x603000000190
+node_0x180c00000064[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x603000000190->node_0x180c00000064
+node_0xc0600000032[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x603000000190->node_0xc0600000032
+node_0x6030000000d0->node_0x603000000130
+node_0x6030000000d0->node_0x603000000100
+node_0x180c00000040[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x603000000100->node_0x180c00000040
+node_0xc0600000020[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x603000000100->node_0xc0600000020
+node_0x6030000000a0->node_0x6030000000d0
+node_0xc0600000014[  shape     = "ellipse", style     = filled, fillcolor = "darkslategray", color     = "darkslategray", label     = ""]
+node_0x6030000000a0->node_0xc0600000014
+}

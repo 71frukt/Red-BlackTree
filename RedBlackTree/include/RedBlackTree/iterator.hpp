@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include "RLogSU/error_handler.hpp"
 #include "RedBlackTree/node.hpp"
 #include "RLogSU/logger.hpp"
 
@@ -12,9 +11,13 @@ template <typename KeyT, typename Comp>
 class Tree;
 
 template <typename TreeKeyT, typename TreeComp, typename IteratorKeyT>
-class RBTIterator// : public std::iterator<std::input_iterator_tag, IteratorKeyT>
+class RBTIterator
 {
     friend class Tree<TreeKeyT, TreeComp>;
+
+    template<typename A, typename B, typename C>
+    friend class RBTIterator;
+
     using Node = RBT::RBTNode<TreeKeyT, TreeComp>;
 
     using iterator_category = std::input_iterator_tag;
@@ -35,11 +38,13 @@ public:
     const IteratorKeyT* operator->() const { return &node_ptr_->key; }
           IteratorKeyT* operator->()       { return &node_ptr_->key; }
 
-    operator RBTIterator<TreeKeyT, TreeComp, const TreeKeyT>() const { return Iterator<TreeKeyT, TreeComp, const TreeKeyT>(node_ptr_); }
+    Node* get() const { return node_ptr_; }
+
+    operator RBTIterator<TreeKeyT, TreeComp, const IteratorKeyT>() const { return RBTIterator<TreeKeyT, TreeComp, const IteratorKeyT>(node_ptr_); }
     
     RBTIterator& operator++()
     {
-        *this = GetNext_(*this);
+        *this = GetNext_();
         return *this;
     };
 
@@ -50,14 +55,29 @@ public:
         return temp;
     }
 
+    bool operator==(const RBTIterator& other) const
+    {
+        return this->get() == other.get();
+    };
+
+    bool operator!=(const RBTIterator& other) const
+    {
+        return this->get() != other.get();
+    };
+
 private:
     Node* node_ptr_;
 
-    [[nodiscard]] RBTIterator GetNext_(const RBTIterator& cur_it) const
+
+    [[nodiscard]] RBTIterator GetNext_()
     {
-        Node* cur_node = cur_it.node_ptr_;
+        Node* cur_node = node_ptr_;
         
-        RLSU_ASSERT(cur_node, "attempt to increment iterator on nullptr");
+        if (cur_node == nullptr)
+        {
+            RLSU_WARNING("attempt to increment iterator on nullptr");
+            return RBTIterator(nullptr);
+        }
 
         if (cur_node->right != nullptr)
         {
@@ -68,7 +88,7 @@ private:
                 cur_node = cur_node->left;
             }
 
-            return RBTIterator<TreeKeyT, TreeComp, TreeKeyT>(cur_node);
+            return RBTIterator(cur_node);
         }
 
         // else
@@ -81,7 +101,7 @@ private:
             father = cur_node->father;
         }
 
-        return RBTIterator<TreeKeyT, TreeComp, TreeKeyT>(father);
+        return RBTIterator(father);
     }
 };
 
