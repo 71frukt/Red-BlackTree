@@ -15,15 +15,24 @@ int main()
     // auto it = tree.begin();
     // it++;
 
-    tree.Insert(17);
-    tree.Insert(15);
-    tree.Insert(16);
-    tree.Insert(1);
-    tree.Insert(6);
-    tree.Insert(7);
-    tree.Insert(2);
-    tree.Insert(3);
-    tree.Insert(5);
-    
+    tree.insert(1);
+    tree.insert(6);
+    tree.insert(15);
+    tree.insert(7);
+    tree.insert(17);
+    tree.insert(2);
+    tree.insert(5);
+    tree.insert(16);
+    tree.insert(3);
+
+    RLSU_DUMP(tree.Dump());
+
+    tree.erase(15);
+    RLSU_DUMP(tree.Dump());
+
+    tree.erase(1);
+    RLSU_DUMP(tree.Dump());
+
+    tree.erase(2);
     RLSU_DUMP(tree.Dump());
 }
