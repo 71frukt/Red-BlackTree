@@ -12,27 +12,19 @@ int main()
 
     Trees::RBT::Tree<int, std::greater<int>> tree;
 
-    // auto it = tree.begin();
-    // it++;
+    RLSU_DUMP(tree.Dump());
 
     tree.insert(1);
-    tree.insert(6);
-    tree.insert(15);
-    tree.insert(7);
-    tree.insert(17);
     tree.insert(2);
-    tree.insert(5);
-    tree.insert(16);
     tree.insert(3);
+    tree.insert(4);
+    tree.insert(5);
 
     RLSU_DUMP(tree.Dump());
 
-    tree.erase(15);
-    RLSU_DUMP(tree.Dump());
+    Trees::RBT::Tree<int, std::greater<int>> tree1(tree);
+    tree1.Dump();
 
-    tree.erase(1);
-    RLSU_DUMP(tree.Dump());
-
-    tree.erase(2);
-    RLSU_DUMP(tree.Dump());
+    tree1 = tree;
+    tree1.Dump();
 }

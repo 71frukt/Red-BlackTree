@@ -27,8 +27,9 @@ class RBTIterator
     using reference         = IteratorKeyT&;
 
 private:
-    explicit RBTIterator(Node *node_ptr)
-    : node_ptr_(node_ptr)
+    explicit RBTIterator(const Tree<TreeKeyT, TreeComp>* tree, Node *node_ptr)
+    : tree_(tree)
+    , node_ptr_(node_ptr)
     {}
     
 public:
@@ -66,6 +67,7 @@ public:
     };
 
 private:
+    const Tree<TreeKeyT, TreeComp>* tree_;
     Node* node_ptr_;
 
 
@@ -73,35 +75,35 @@ private:
     {
         Node* cur_node = node_ptr_;
         
-        if (cur_node == nullptr)
+        if (cur_node == tree_->nil_)
         {
-            RLSU_WARNING("attempt to increment iterator on nullptr");
-            return RBTIterator(nullptr);
+            RLSU_WARNING("attempt to increment iterator on nil");
+            return RBTIterator(tree_, tree_->nil_);
         }
 
-        if (cur_node->right != nullptr)
+        if (cur_node->right != tree_->nil_)
         {
             cur_node = cur_node->right;
 
-            while (cur_node->left != nullptr)
+            while (cur_node->left != tree_->nil_)
             {
                 cur_node = cur_node->left;
             }
 
-            return RBTIterator(cur_node);
+            return RBTIterator(tree_, cur_node);
         }
 
         // else
 
         Node* father = cur_node->father;
 
-        while (father != nullptr && cur_node == father->right)
+        while (father != tree_->nil_ && cur_node == father->right)
         {
             cur_node = father;
             father = cur_node->father;
         }
 
-        return RBTIterator(father);
+        return RBTIterator(tree_, father);
     }
 };
 
