@@ -40,19 +40,22 @@ public:
     // template<ValidIterator<iterator, const_iterator> Iterator>          // FIXME насколько это нормальное решение?
     // Iterator begin() const;
     
-    iterator       begin()       { return CreateIterator     (BeginNode_()); };
-    const_iterator begin() const { return CreateConstIterator(BeginNode_()); };
+    iterator       begin()       { return CreateIterator (BeginNode_()); };
+    const_iterator begin() const { return CreateIterator (BeginNode_()); };
 
-    iterator       end  ()       { return CreateIterator     (nil_); }
-    const_iterator end  () const { return CreateConstIterator(nil_); }
+    iterator       end  ()       { return CreateIterator (nil_); }
+    const_iterator end  () const { return CreateIterator (nil_); }
 
-    iterator       find(const KeyT& key)       { return CreateIterator     (FindInSubtree_(root_, key)); };
-    const_iterator find(const KeyT& key) const { return CreateConstIterator(FindInSubtree_(root_, key)); };
+    iterator       find(const KeyT& key)       { return CreateIterator (FindInSubtree_(root_, key)); };
+    const_iterator find(const KeyT& key) const { return CreateIterator (FindInSubtree_(root_, key)); };
 
     iterator       insert(const KeyT& new_key);
 
     void           erase(iterator erase_it)     { DeleteNode_(erase_it.node_ptr_); }
     void           erase(const KeyT& erase_key) { DeleteNode_(FindInSubtree_(root_, erase_key)); }
+
+    iterator       LowerBound(const KeyT& key);// const;   // first not less then key
+    iterator       UpperBound(const KeyT& key);// const;   // first greater  then key
 
 #ifndef NDEBUG
     void Dump() const;
@@ -84,8 +87,8 @@ private:
     void FixupInsert_(Node* inserted);
     void FixupDelete_(Node* fixup_node);
 
-    iterator       CreateIterator     (Node* ptr) const { return iterator       (this, ptr); }
-    const_iterator CreateConstIterator(Node* ptr) const { return const_iterator (this, ptr); }
+    iterator       CreateIterator (Node* ptr)       { return iterator       (this, ptr); }
+    const_iterator CreateIterator (Node* ptr) const { return const_iterator (this, ptr); }
 
 #ifndef NDEBUG
     void AddNodeEdges_          (RLSU::Graphics::Graph& graph, const Node* node) const;
@@ -292,7 +295,7 @@ Tree<KeyT, Comp>::iterator Tree<KeyT, Comp>::insert(const KeyT& new_key)
 
     ERROR_HANDLE(FixupInsert_(new_node));
 
-    return ERROR_HANDLE(CreateIterator(new_node));
+    return CreateIterator(new_node);
 }
 
 
@@ -544,6 +547,57 @@ Tree<KeyT, Comp>::Node* Tree<KeyT, Comp>::FindInSubtree_(Node* sub_root, const K
     else
         return FindInSubtree_(sub_root->left, key);
 }
+
+
+
+template <typename KeyT, typename Comp>
+Tree<KeyT, Comp>::iterator Tree<KeyT, Comp>::LowerBound(const KeyT& key)
+{
+    Node* result = nil_;
+    Node* cur_node   = root_;
+
+    while (cur_node != nil_)
+    {
+        RLSU_INFO("LowerBound: cur_node->key = {}", cur_node->key);
+
+        if (!comparator_(key, cur_node->key))  //  if (result->key >= key) <=> if (!(key > result->key))
+        {
+            result   = cur_node;
+            cur_node = cur_node->left;
+        }
+
+        else
+        {
+            cur_node = cur_node->right;
+        }
+    }
+
+    return CreateIterator(result);
+}
+
+template <typename KeyT, typename Comp>
+Tree<KeyT, Comp>::iterator Tree<KeyT, Comp>::UpperBound(const KeyT& key)
+{
+    Node* result = nil_;
+    Node* cur_node   = root_;
+
+    while (cur_node != nil_)
+    {
+        if (comparator_(cur_node->key, key))  // if (result->key > key)
+        {
+            result = cur_node;
+            cur_node   = cur_node->left;
+        }
+
+        else
+        {
+            cur_node = cur_node->right;
+        }
+    }
+
+    return CreateIterator(result);
+}
+
 
 template <typename KeyT, typename Comp>
 Tree<KeyT, Comp>::Node* Tree<KeyT, Comp>::GetMin_(Node* subtree_root) const

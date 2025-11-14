@@ -23,10 +23,7 @@ message(STATUS "Tests directory: ${TESTS_DIR}")
 #------------------------------------------------------------------------
 
 add_subdirectory(RedBlackTree)
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_subdirectory(libs/RLogSU)
-endif()
+add_subdirectory(libs/RLogSU)
 
 add_executable(main
     main.cpp
