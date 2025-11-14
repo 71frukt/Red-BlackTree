@@ -1,7 +1,5 @@
-#include <functional>
+#include <iostream>
 #include <iterator>
-#include <vector>
-
 #include "RLogSU/logger.hpp"
 #include "RedBlackTree/tree.hpp"
 
@@ -11,22 +9,50 @@ int main()
 {
     Trees::RBT::Tree<int, std::greater<int>> tree;
 
-    tree.insert(1 );
-    tree.insert(2 );
-    tree.insert(3 );
-    tree.insert(4 );
-    tree.insert(5 );
-    tree.insert(6 );
-    tree.insert(7 );
-    tree.insert(8 );
-    tree.insert(9 );
-    tree.insert(10);
+    std::string command;
 
-    Trees::RBT::Tree<int, std::greater<int>>::iterator start = tree.LowerBound(3);
-    Trees::RBT::Tree<int, std::greater<int>>::iterator end   = tree.UpperBound(9);
+    while (std::cin >> command)
+    {
+        if (command == "k")
+        {
+            int key;
+            std::cin >> key;
+            tree.insert(key);
+                RLSU_DUMP(tree.Dump());
 
-    auto dist = std::distance(start, end);
+        }
+        
+        else if (command == "q")
+        {
+            int a, b;
+            std::cin >> a >> b;
+            
+            auto start = tree.end();
+            auto end   = tree.end();
+
+            if (a <= b)
+            {
+                start = tree.LowerBound(a);
+                end   = tree.UpperBound(b);
+            }
+
+            else
+            {
+                start = tree.LowerBound(b);
+                end   = tree.UpperBound(a);
+            }
+
+            // RLSU_INFO("a = {}, b = {}; start = {}, end = {}", a, b, *start, *end);
+            
+            std::ptrdiff_t dist = std::distance(start, end);
+            std::cout << dist << " ";
+        }
+
+        else
+        {
+            RLSU_WARNING("invalid request: '{}'", command);
+        }
+    }
 
     RLSU_DUMP(tree.Dump());
-
 }

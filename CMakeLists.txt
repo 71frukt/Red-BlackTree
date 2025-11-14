@@ -25,11 +25,11 @@ message(STATUS "Tests directory: ${TESTS_DIR}")
 add_subdirectory(RedBlackTree)
 add_subdirectory(libs/RLogSU)
 
-add_executable(main
-    main.cpp
+add_executable(range_query
+    range_query.cpp
 )
 
-target_link_libraries(main PRIVATE
+target_link_libraries(range_query PRIVATE
     RLogSU
     RedBlackTree
     # GTest::gtest
@@ -38,9 +38,9 @@ target_link_libraries(main PRIVATE
 
 
 
-target_compile_definitions(main PRIVATE MODULE_NAME="main")
+target_compile_definitions(range_query PRIVATE MODULE_NAME="range_query")
 
-set(EXECS main)
+set(EXECS range_query)
 set(LIBS  RLogSU)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
